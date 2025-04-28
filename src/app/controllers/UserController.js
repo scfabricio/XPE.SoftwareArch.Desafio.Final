@@ -9,6 +9,12 @@ export function create(req, res) {
   res.status(201).json(newUser);
 }
 
+
+export function remove(req, res) {
+  UserModel.removeUser(req.params.id);
+  res.status(204).send("");
+}
+
 export function list(req, res) {
   const users = UserModel.getAllUsers();
   res.json(users);
@@ -18,5 +24,13 @@ export function get(req, res) {
   const user = UserModel.getUserById(req.params.id);
   if (!user) return res.status(404).json({ message: 'Usuário não encontrado' });
   res.json(user);
+}
+
+export function update(req, res) {
+  const user = UserModel.getUserById(req.params.id);
+  if (!user) return res.status(404).json({ message: 'Usuário não encontrado' });
+  const { name } = req.body;
+  const newUser = UserModel.updateUser(user.id, name);
+  res.json(newUser);
 }
 
